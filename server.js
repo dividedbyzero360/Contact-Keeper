@@ -1,9 +1,11 @@
 // Common JS=> Node ES6 Modules=> React
 const express = require('express');
+const connectDB=require('./config/db');
 const app=express();
 
+connectDB();
+
 app.get('/',(req,res)=>res.json({msg:'Welcome to the contact keeper API'}));
-//app.get('/',(req,res)=>res.send('Hello World'));
 
 app.use('/api/users',require('./routes/users'));
 app.use('/api/contacts',require('./routes/auth'))
