@@ -7,6 +7,8 @@ connectDB();
 
 app.get('/',(req,res)=>res.json({msg:'Welcome to the contact keeper API'}));
 
+app.use(express.json());
+
 app.use('/api/users',require('./routes/users'));
 app.use('/api/contacts',require('./routes/auth'))
 app.use('/api/auth',require('./routes/contacts'))
