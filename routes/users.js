@@ -33,7 +33,7 @@ router.post('/', [
             password
         });
         const saltRounds = 10;
-        const generatedSalt=await bcrypt.genSalt(10);
+        const generatedSalt=await bcrypt.genSalt(saltRounds);
         console.log(generatedSalt)
         const saltedPassword = await bcrypt.hash(user.password, generatedSalt);
         user.password = saltedPassword;
