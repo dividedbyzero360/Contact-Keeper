@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext'
 
 const ContactForm = () => {
+
 
     const contactContext = useContext(ContactContext);
     const [contact, setContact] = useState({
@@ -10,6 +11,25 @@ const ContactForm = () => {
         email: '',
         phone: ''
     });
+
+    let { currentContact } = contactContext;
+    useEffect(() => {
+        console.log("UseEffect ContactForm");
+        if (currentContact != null) {
+            setContact(currentContact);
+
+        } else {
+            setContact({
+                name: '',
+                type: 'personal',
+                email: '',
+                phone: ''
+            });
+        }
+        return function cleanall(){
+            console.log("Clean all");
+        };
+    }, [contactContext, currentContact]);
     const { name, email, phone, type } = contact;
     const onchange = e => {
         setContact({
@@ -20,17 +40,20 @@ const ContactForm = () => {
 
     const onsubmit = (e) => {
         e.preventDefault();
-        contactContext.addContact(contact);
-        setContact({
-            name: '',
-            type: 'personal',
-            email: '',
-            phone: ''
-        });
+        if(currentContact==null){
+            contactContext.addContact(contact);
+        }else{
+            contactContext.updateContact(contact);
+        }
+         clearAll();
+    }
+    const clearAll = () => {
+        //currentContact = null;
+        contactContext.clearContact();
     }
     return (
         <form onSubmit={onsubmit}>
-            <h2 className='text-primary'>Add Contact</h2>
+            <h2 className='text-primary'>{currentContact ? 'Edit Contact' : 'Add Contact'}</h2>
             <input
                 type='text'
                 placeholder='name'
@@ -58,8 +81,11 @@ const ContactForm = () => {
             <input type='radio' name='type'
                 value='professional' checked={type === 'professional'} onChange={onchange} />{' '}Professional {' '}
             <div>
-                <input type="submit" value="Add Contact" className="btn btn-primary btn-block" />
+                <input type="submit" value={currentContact ? "Update Contact" : "Add Contact"} className="btn btn-primary btn-block" />
             </div>
+            {currentContact && (<div>
+                <button className="btn bt-light btn-block" onClick={clearAll}>Clear All</button>
+            </div>)}
         </form>
     );
 }
