@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import ContactContext from '../../context/contact/contactContext'
+import ContactContext from '../../context/contact/contactContext';
 
 const ContactForm = () => {
-
-
     const contactContext = useContext(ContactContext);
     const [contact, setContact] = useState({
         name: '',
@@ -11,10 +9,8 @@ const ContactForm = () => {
         email: '',
         phone: ''
     });
-
     let { currentContact } = contactContext;
     useEffect(() => {
-        console.log("UseEffect ContactForm");
         if (currentContact != null) {
             setContact(currentContact);
 
@@ -27,9 +23,9 @@ const ContactForm = () => {
             });
         }
         return function cleanall(){
-            console.log("Clean all");
+            //console.log("Clean all");
         };
-    }, [contactContext, currentContact]);
+    }, [contactContext]);
     const { name, email, phone, type } = contact;
     const onchange = e => {
         setContact({
