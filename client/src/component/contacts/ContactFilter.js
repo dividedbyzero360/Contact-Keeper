@@ -3,16 +3,16 @@ import ContactContext from '../../context/contact/contactContext';
 
 const ContactFilter = () => {
     const contactContext = useContext(ContactContext);
-    const {filteredContact,contacts}= contactContext;
+    const {filteredContact,contacts, filterContact}= contactContext;
     useEffect(() => {
-        if (contactContext.filteredContact == null) {
-            text.current.value = "";
+        if (filteredContact == null) {
+            text.current.value = "";    
         } 
     }, [filteredContact])
 
     useEffect(() => {
         if (text.current.value !== '') {
-            contactContext.filterContact(text.current.value);
+            filterContact(text.current.value);
         }
     }, [contacts])
 
